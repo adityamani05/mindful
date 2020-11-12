@@ -1,0 +1,90 @@
+<form [formGroup]="signUpForm" (ngSubmit)="onFormSubmit()">
+
+    <div [ngSwitch]="currentPage">
+        <div *ngSwitchCase="1">
+            <div class="basic-info-container">
+                <mat-form-field class="email-field" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput formControlName="email">
+                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-error *ngIf="email?.errors?.email">You must enter a valid email</mat-error>
+                    <mat-error *ngIf="email?.errors?.required">This field is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="username-field" appearance="outline">
+                    <mat-label>User Name</mat-label>
+                    <input matInput formControlName="username">
+                    <mat-error *ngIf="username?.errors?.minlength">Minimum length must be greater than or equal to 2
+                    </mat-error>
+                    <mat-error *ngIf="username?.errors?.required">This field is required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="dob-field" appearance="outline">
+                    <mat-label>Date of Birth</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="8/31/2000"
+                        readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="dateOfBirth?.errors?.required">This field is required</mat-error>
+                </mat-form-field>
+
+                <ng-container formGroupName="passwords">
+                    <mat-form-field class="password-field" appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input type="password" matInput formControlName="password">
+                        <mat-icon matSuffix>lock</mat-icon>
+                        <mat-error *ngIf="password?.errors?.minlength">Minimum length must be greater than or equal to 4
+                        </mat-error>
+                        <mat-error *ngIf="password?.errors?.required">This field is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="c-password-field" appearance="outline">
+                        <mat-label>Confirm Password</mat-label>
+                        <input type="password" matInput formControlName="confirmPassword">
+                        <mat-icon matSuffix>lock</mat-icon>
+                    </mat-form-field>
+                </ng-container>
+
+
+
+                <div class="next-btn">
+                    <button type="button" mat-raised-button color="primary" [disabled]="signUpForm.invalid"
+                        (click)="changePage(2)">Next</button>
+                </div>
+
+            </div>
+        </div>
+        <div *ngSwitchCase="2">
+            <div class="basic-profile-container">
+                <div class="profile-picture">
+                    <img [src]="userPicture" alt="">
+
+                    <button type="button" mat-button (click)="openFilePicker.click()">+ Upload Picture</button>
+                    <div style="display: none;">
+                        <input type="file" accept="image/*" #openFilePicker (change)="showPreview($event)">
+                    </div>
+                </div>
+
+                <mat-form-field class="name-field" appearance="outline">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput formControlName="name">
+                </mat-form-field>
+
+                <mat-form-field class="bio-field" appearance="outline">
+                    <mat-label>Bio</mat-label>
+                    <textarea matInput [mat-autosize]=true [matAutosizeMinRows]=5 placeholder="Ex. It makes me feel..."
+                        formControlName="bio"></textarea>
+                </mat-form-field>
+
+                <div class="submit-btn">
+                    <button type="button" mat-raised-button (click)="changePage(1)">Back</button>
+                    <button type="submit" mat-raised-button color="primary">Submit</button>
+                </div>
+
+            </div>
+
+        </div>
+        <div *ngSwitchDefault>output2</div>
+    </div>
+
+</form>
